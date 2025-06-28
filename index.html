@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule Generator Input Form</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background-color: #f3f4f6;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #1f2937;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      margin-top: 5px;
+      padding: 8px;
+      width: 300px;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .dynamic-section {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Schedule Generator Input Form</h1>
+
+  <div class="section">
+    <h2>1. Classes</h2>
+    <label>Number of Classes: <input type="number" id="classCount" min="1" value="2"></label>
+  </div>
+
+  <div class="section">
+    <h2>2. Subjects</h2>
+    <label>Number of Subjects: <input type="number" id="subjectCount" min="1" value="5"></label>
+  </div>
+
+  <div class="section">
+    <h2>3. Days</h2>
+    <label>Number of Days in Week: <input type="number" id="dayCount" min="1" value="5"></label>
+  </div>
+
+  <div class="section">
+    <h2>4. Time Slots</h2>
+    <label>Total Time Slots Per Day: <input type="number" id="slotCount" min="1" value="6"></label>
+    <label>Break Slot(s) (comma separated): <input type="text" id="breakSlots" placeholder="e.g., 3"></label>
+  </div>
+
+  <div class="section">
+    <h2>5. Teacher Details</h2>
+    <label>Enter teachers (Format: Name - Available Slots e.g., Mon-1,Mon-2,Tue-3)</label>
+    <textarea id="teachers" rows="5" placeholder="Mr. Sharma - Mon-1,Tue-2\nMs. Patil - Mon-2,Wed-1"></textarea>
+  </div>
+
+  <div class="section">
+    <h2>6. Subject Details</h2>
+    <label>Enter subjects (Format: Name, Type [theory/practical], Lectures/week, Teacher Name)</label>
+    <textarea id="subjects" rows="6" placeholder="Math, theory, 4, Mr. Sharma\nPhysics Lab, practical, 2, Ms. Patil"></textarea>
+  </div>
+
+  <div class="section">
+    <h2>7. Practical Batches</h2>
+    <label>Number of Practicals per Batch (4 batches per class assumed): <input type="number" id="practicalPerBatch" min="1" value="1"></label>
+  </div>
+
+  <button onclick="submitData()">Submit & Generate Schedule</button>
+
+  <script>
+    function submitData() {
+      const data = {
+        classCount: parseInt(document.getElementById('classCount').value),
+        subjectCount: parseInt(document.getElementById('subjectCount').value),
+        dayCount: parseInt(document.getElementById('dayCount').value),
+        slotCount: parseInt(document.getElementById('slotCount').value),
+        breakSlots: document.getElementById('breakSlots').value.split(',').map(s => s.trim()),
+        practicalPerBatch: parseInt(document.getElementById('practicalPerBatch').value),
+        teachers: [],
+        subjects: []
+      };
+
+      const teacherLines = document.getElementById('teachers').value.trim().split('\n');
+      teacherLines.forEach(line => {
+        const [name, slots] = line.split('-');
+        data.teachers.push({
+          name: name.trim(),
+          available_slots: slots.trim().split(',').map(s => s.trim())
+        });
+      });
+
+      const subjectLines = document.getElementById('subjects').value.trim().split('\n');
+      subjectLines.forEach(line => {
+        const [name, type, lectures, teacher] = line.split(',');
+        data.subjects.push({
+          name: name.trim(),
+          type: type.trim(),
+          lectures_per_week: parseInt(lectures.trim()),
+          teacher: teacher.trim()
+        });
+      });
+
+      console.log("Sending data:", data);
+
+      fetch('http://localhost:5000/generate_schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(response => {
+        alert("Schedule Generated! Check Console for Response.");
+        console.log(response);
+      })
+      .catch(error => {
+        alert("Error generating schedule.");
+        console.error(error);
+      });
+    }
+  </script>
+
+</body>
+</html>
