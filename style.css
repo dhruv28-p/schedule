@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.rampart-one-regular 
+{
+    font-family: "Rampart One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #f9ebe5e7;
+    color: #2a3652;
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #57606b;
+  color: rgb(246, 243, 243);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 15px 25px;
+  color: rgb(252, 250, 250);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: #374151;
+}
+
+/* Main Content */
+.main {
+  margin-left: 220px;
+  padding: 40px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  color: #0e1118;
+  margin-bottom: 40px;
+}
+
+.section {
+  background: #f6f6f9;
+  padding: 15px 20px;
+  margin: 20px auto;       /* Center horizontally */
+  border-radius: 10px;
+  width: 60%;              /* or adjust as needed */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.section:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+  font-size: 20px;
+  color: #1f2937;
+  margin-bottom: 20px;
+  border-left: 4px solid #3b82f6;
+  padding-left: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+}
+
+input, select, textarea {
+  margin-top: 5px;
+  padding: 10px 12px;
+  width: 100%;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #2563eb;
+  outline: none;
+  background-color: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  margin-top: 30px;
+  padding: 14px 28px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
